@@ -1,11 +1,16 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+
+const extractPlugin = new ExtractTextPlugin({ filename: './assets/css/app.css' });
 
 const config = {
+
   context: path.resolve(__dirname, 'src'),
 
   entry: {
-    // removing 'src' directory from entry point, since 'context' is taking care of that
     app: './app.js'
   },
 
@@ -16,6 +21,8 @@ const config = {
 
   module: {
     rules: [
+
+      //babel-loader
       {
         test: /\.js$/,
         include: /src/,
@@ -26,23 +33,39 @@ const config = {
             presets: ['env']
           }
         }
-      }
+      },
+      //html-loader
+      { test: /\.html$/, use: ['html-loader'] },
+      //sass-loader
+      {
+		  test: /\.scss$/,
+		  include: [path.resolve(__dirname, 'src', 'assets', 'scss')],
+		  use: extractPlugin.extract({
+		    use: ['css-loader', 'sass-loader'],
+		    fallback: 'style-loader'
+		  })
+		}
+
     ]
   },
 
   plugins: [
-    new CleanWebpackPlugin(['dist'])
+    new CleanWebpackPlugin(['dist']),
+    new HtmlWebpackPlugin({
+      template: 'index.html'
+    }),
   ],
 
   devServer: {
     contentBase: path.resolve(__dirname, "./dist/assets/media"),
     compress: true,
-    port: 2000,
+    port: 12000,
     stats: 'errors-only',
     open: true
   },
 
   devtool: 'inline-source-map'
+  
 }
 
 module.exports = config;

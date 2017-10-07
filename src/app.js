@@ -1,0 +1,17 @@
+import './assets/scss/app.scss';
+
+class SkinnedMesh {
+  constructor(geometry, materials) {
+    this.idMatrix = SkinnedMesh.defaultMatrix();
+    this.bones = [];
+    this.boneMatrices = [];
+    //...
+  }
+  update(camera) {
+    //...
+    super.update();
+  }
+  static defaultMatrix() {
+    return new THREE.Matrix4();
+  }
+}
