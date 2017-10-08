@@ -26,7 +26,7 @@ const config = {
     rules: [
 
       // babel-loader with 'env' preset
-      { test: /\.js$/, include: /src/, exclude: /node_modules/, use: { loader: "babel-loader", options: { presets: ['env'] } } },
+      { test: /\.jsx?$/, include: /src/, exclude: /node_modules/, use: { loader: "babel-loader", options: { presets: ['env'] } } },
       // html-loader
       { test: /\.html$/, use: ['html-loader'] },
       // sass-loader with sourceMap activated
@@ -66,7 +66,17 @@ const config = {
       template: 'index.html'
     }),
     // extract-text-webpack-plugin instance
-    extractPlugin
+    extractPlugin,
+    new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+        Popper: ['popper.js', 'default'],
+        // In case you imported plugins individually, you must also require them here:
+        // Util: "exports-loader?Util!bootstrap/js/dist/util",
+        // Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
+        
+      })
   ],
 
   devServer: {

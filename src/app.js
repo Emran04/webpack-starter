@@ -1,17 +1,33 @@
 import './assets/scss/app.scss';
+// import $ from 'jquery';
+// import 'popperjs';
+import 'bootstrap';
 
-class SkinnedMesh {
-  constructor(geometry, materials) {
-    this.idMatrix = SkinnedMesh.defaultMatrix();
-    this.bones = [];
-    this.boneMatrices = [];
-    //...
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+class Welcome extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {name: 'Emran'};
   }
-  update(camera) {
-    //...
-    super.update();
+
+  handleChange(e) {
+    this.setState({name: e.target.value});
   }
-  static defaultMatrix() {
-    return new THREE.Matrix4();
+
+  render() {
+    return (
+      <div style={{textAlign: 'center'}}>
+        <h1>Welcome</h1>
+        <p>Hello {this.state.name}</p>
+        <input onChange={this.handleChange} defaultValue={this.state.name}/>
+      </div>
+    );
   }
+
 }
+
+ReactDOM.render(<Welcome/>, document.getElementById('app'));
